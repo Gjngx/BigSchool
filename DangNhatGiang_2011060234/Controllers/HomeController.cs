@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
 using DangNhatGiang_2011060234.Models;
+using DangNhatGiang_2011060234.Models.ViewModels;
 
 namespace DangNhatGiang_2011060234.Controllers
 {
@@ -21,7 +22,12 @@ namespace DangNhatGiang_2011060234.Controllers
                 .Include(c => c.Lecturer)
                 .Include(c => c.Category)
                 .Where(c => c.DateTime > DateTime.Now);
-            return View(upcommingCourses);
+            var viewModel = new CoursesViewModel
+            {
+                UpcommingCourses = upcommingCourses,
+                ShowAction = User.Identity.IsAuthenticated
+            };
+            return View(viewModel);
         }
 
         public ActionResult About()
